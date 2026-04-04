@@ -1,4 +1,4 @@
-﻿# MediCore SaaS API
+# MediCore SaaS API
 
 Sistema backend Multi-Clínica construido para gestionar pacientes, citas médicas y cobros de forma aislada y segura.
 
