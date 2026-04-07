@@ -1,18 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace MediCore.Api.Models;
 
 public partial class MediCoreContext : DbContext
 {
+    private readonly IHttpContextAccessor? _httpContextAccessor;
     public MediCoreContext()
     {
     }
-
-    public MediCoreContext(DbContextOptions<MediCoreContext> options)
+    public MediCoreContext(DbContextOptions<MediCoreContext> options, IHttpContextAccessor httpContextAccessor)
         : base(options)
     {
+        _httpContextAccessor = httpContextAccessor;
+    }
+    public int CurrentClinicaId
+    {
+        get
+        {
+            var claim = _httpContextAccessor?.HttpContext?.User?.FindFirst("clinicaId")?.Value;
+            return claim != null ? int.Parse(claim) : 0; // Si no hay token, devuelve 0
+        }
     }
 
     public virtual DbSet<CitaMedica> CitaMedicas { get; set; }
@@ -54,6 +64,7 @@ public partial class MediCoreContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__CitaMedic__Pacie__571DF1D5");
         });
+        modelBuilder.Entity<Usuario>().HasQueryFilter(u => u.ClinicaId == CurrentClinicaId);
 
         modelBuilder.Entity<Clinica>(entity =>
         {
