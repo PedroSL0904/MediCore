@@ -15,6 +15,8 @@ public partial class Paciente
 
     public string? Telefono { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual ICollection<CitaMedica> CitaMedicas { get; set; } = new List<CitaMedica>();
 
     public virtual Clinica Clinica { get; set; } = null!;

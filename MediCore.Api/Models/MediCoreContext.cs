@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace MediCore.Api.Models;
 
@@ -22,6 +23,14 @@ public partial class MediCoreContext : DbContext
         {
             var claim = _httpContextAccessor?.HttpContext?.User?.FindFirst("clinicaId")?.Value;
             return claim != null ? int.Parse(claim) : 0; // Si no hay token, devuelve 0
+        }
+    }
+    public int CurrentUserId
+    {
+        get
+        {
+            var claim = _httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return claim != null ? int.Parse(claim) : 0;
         }
     }
 
@@ -65,6 +74,7 @@ public partial class MediCoreContext : DbContext
                 .HasConstraintName("FK__CitaMedic__Pacie__571DF1D5");
         });
         modelBuilder.Entity<Usuario>().HasQueryFilter(u => u.ClinicaId == CurrentClinicaId);
+        modelBuilder.Entity<Paciente>().HasQueryFilter(p => p.ClinicaId == CurrentClinicaId && p.Activo);
 
         modelBuilder.Entity<Clinica>(entity =>
         {

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediCore.Api.DTOs;
 using MediCore.Api.Models;
-using MediCore.Api.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Authorization;
 
 namespace MediCore.Api.Controllers
 {
@@ -47,7 +48,7 @@ namespace MediCore.Api.Controllers
         public IActionResult Login([FromBody] UsuarioLoginDto dto)
         {
             // 1. Buscamos el correo
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Email == dto.Correo);
+            var usuario = _context.Usuarios.IgnoreQueryFilters().FirstOrDefault(u => u.Email == dto.Correo);
             if (usuario == null) return Unauthorized(new { mensaje = "Credenciales incorrectas." });
 
             // 2. Verificamos la contraseña encriptada
