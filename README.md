@@ -11,13 +11,15 @@ MediCore es un ecosistema backend diseñado bajo un modelo SaaS para la gestión
 
 ## Arquitectura y Seguridad
 * Diseño de base de datos relacional con integridad referencial estricta.
-* Lógica preparada para aislamiento de datos (Esquema Multi-Cliente).
+* **Aislamiento de datos (SaaS Multi-Tenant):** Implementado a nivel de base de datos usando *Global Query Filters* en Entity Framework Core.
+* **Seguridad:** Encriptación de contraseñas con BCrypt y Autenticación mediante Tokens JWT.
 
 ## 🛠️ Roadmap de Desarrollo
 - [x] Estructura inicial de Base de Datos (SQL Server).
 - [x] Conexión mediante Entity Framework Core.
-- [ ] Implementación de Autenticación con JWT (Seguridad).
-- [ ] Módulo de Expediente Clínico Electrónico.
+- [x] Implementación de Autenticación con JWT, BCrypt y Aislamiento SaaS.
+- [ ] Módulo de Expediente Clínico Electrónico (Pacientes).
+- [ ] Módulo de Gestión de Citas Médicas.
 - [ ] Motor de Cobranza y Facturación.
 - [ ] Reportes avanzados con SQL Window Functions.
 
