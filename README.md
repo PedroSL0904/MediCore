@@ -1,8 +1,8 @@
 # 🏥 MediCore SaaS API
 
-> **Estatus del Proyecto:** 🚀 MVP Funcional 
+> **Estatus del Proyecto:** 🚀 MVP Refactorizado (Arquitectura de Servicios)
 
-MediCore es un ecosistema backend diseñado bajo un modelo SaaS (Software as a Service) para la gestión integral de clínicas médicas. Está construido con arquitectura robusta orientada a la seguridad de la información, el aislamiento de datos y el rendimiento.
+MediCore es un ecosistema backend diseñado bajo un modelo SaaS (Software as a Service) para la gestión integral de clínicas médicas. Implementa patrones de diseño modernos para garantizar escalabilidad, mantenibilidad y seguridad de grado empresarial.
 
 ## 💻 Tecnologías Utilizadas
 * **C# 12 / .NET 8** (Web API)
@@ -12,34 +12,33 @@ MediCore es un ecosistema backend diseñado bajo un modelo SaaS (Software as a S
 * **FluentValidation** (Validación estricta de DTOs)
 
 ## 🛡️ Arquitectura y Seguridad
-* **Aislamiento de Datos (SaaS Multi-Tenant):** Implementado a nivel de base de datos usando *Global Query Filters* en EF Core. Matemáticamente imposible cruzar información entre diferentes clínicas.
-* **Seguridad de Acceso:** Autenticación mediante Tokens JWT y Encriptación de contraseñas con BCrypt.
-* **Control de Acceso Basado en Roles (RBAC):** Endpoints protegidos por nivel de usuario (Ej. `[Authorize(Roles = "SuperAdmin")]`).
-* **Integridad Transaccional:** Uso de transacciones implícitas en SQL Server para evitar pérdidas de datos en operaciones financieras (Cobros y Citas).
-* **Resiliencia (Global Exception Handler):** Middleware nativo de .NET 8 (`IExceptionHandler`) para capturar errores, evitar exposición de código fuente y devolver `ProblemDetails` estandarizados.
-* **Borrado Lógico (Soft Delete):** Historial médico financiero inmutable. Los registros nunca se borran físicamente mediante `DELETE`, se desactivan.
-* **Rendimiento:** Paginación de datos a nivel de base de datos (`Skip` / `Take`) para el manejo eficiente de grandes volúmenes de pacientes.
+* **Capa de Servicios (Service Layer):** Lógica de negocio totalmente desacoplada de los controladores, facilitando pruebas unitarias y mantenimiento.
+* **Seguridad de Secretos:** Implementación de **.NET User Secrets** para proteger llaves JWT y cadenas de conexión, evitando fugas de información en repositorios.
+* **Aislamiento SaaS (Multi-Tenant):** Datos protegidos por *Global Query Filters*. Cada clínica es un silo de información independiente.
+* **Optimización EF Core:** Uso sistemático de `.AsNoTracking()` en consultas de lectura para maximizar el rendimiento del servidor.
+* **Control de Acceso (RBAC):** Seguridad granular basada en roles (Medico, Admin, SuperAdmin).
+* **Resiliencia:** Manejo global de excepciones con `IExceptionHandler` y respuestas estandarizadas `ProblemDetails`.
 
-## 🛠️ Roadmap de Desarrollo (Fase 1: Completada)
-- [x] Estructura inicial de Base de Datos (SQL Server).
-- [x] Conexión mediante Entity Framework Core.
-- [x] Implementación de Autenticación con JWT, BCrypt y Aislamiento SaaS.
-- [x] Módulo de Expediente Clínico Electrónico (Pacientes).
-- [x] Módulo de Gestión de Citas Médicas.
-- [x] Motor de Cobranza y Facturación.
-- [x] Reportes avanzados con inyección de SQL Crudo (Window Functions).
-- [x] Blindaje Enterprise (Validaciones, Paginación, Manejo de Excepciones, Soft Delete, RBAC).
+## 🛠️ Roadmap de Desarrollo
 
-## 🚀 Siguientes Pasos (Fase 2: Refactorización y Buenas Prácticas)
-- [ ] Separación de Responsabilidades (Extraer lógica a Capa de Servicios).
-- [ ] Optimizaciones de lectura en EF Core (`AsNoTracking`).
-- [ ] Integración de Swagger / OpenAPI para documentación.
-- [ ] Implementación de User Secrets y manejo seguro de configuraciones.
+### ✅ Fase 1 y 2: Arquitectura y Core (Completadas)
+- [x] Estructura inicial y conexión EF Core.
+- [x] Autenticación JWT + BCrypt + User Secrets.
+- [x] Módulos Core: Pacientes, Citas y Cobros.
+- [x] **Refactorización a Capa de Servicios** (Interfaces + Services).
+- [x] **Optimización de rendimiento** con `AsNoTracking` y paginación.
+- [x] Blindaje de datos con FluentValidation y Soft Delete.
+
+### 🚀 Siguiente Paso: Fase 3 (Documentación y DevOps)
+- [ ] **Integración de Swagger / OpenAPI:** Documentación interactiva con soporte para seguridad JWT.
+- [ ] **Logging Estructurado:** Implementación de Serilog para trazabilidad.
+- [ ] **Unit Testing:** Pruebas unitarias para la capa de servicios.
+- [ ] **Dockerización:** Preparación de contenedores para despliegue en la nube.
 
 ## ⚙️ Cómo ejecutar el proyecto
 1. Clonar el repositorio.
-2. Asegurarse de tener una instancia de **SQL Server** activa.
-3. Actualizar la cadena de conexión en `appsettings.json`.
-4. Ejecutar las migraciones de base de datos o el script SQL (según corresponda).
-5. Ejecutar `dotnet run` o iniciar desde Visual Studio.
-6. Utilizar la carpeta `.http` incluida en el proyecto para probar los flujos directamente desde el IDE.
+2. Navegar a `MediCore.Api` e inicializar secretos: `dotnet user-secrets init`.
+3. Configurar la llave JWT: `dotnet user-secrets set "Jwt:Key" "TU_LLAVE_SECRETA"`.
+4. Actualizar la cadena de conexión en `appsettings.json`.
+5. Ejecutar `dotnet run`.
+6. Usar `Pruebas.http` con variables globales para testing rápido.
