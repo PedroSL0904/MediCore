@@ -1,4 +1,11 @@
-### 1. Iniciar sesión para obtener tu Token fresco (Los tokens de ayer ya expiraron)
+# ==========================================
+# VARIABLES GLOBALES
+# Pega tu token aquí SIN comillas cuando expire
+# ==========================================
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN1cGVyQWRtaW4iLCJleHAiOjE3NzYyNDMyNjQsImlzcyI6Ik1lZGlDb3JlQVBJIiwiYXVkIjoiTWVkaUNvcmVDbGllbnRzIn0.ui65XXZFShtmmQQUX_bVp6pa2SmVlydTSuSVSKu5tsQ
+
+
+### 1. Iniciar sesión para obtener tu Token fresco (Solo úsalo cuando el de arriba expire)
 POST https://localhost:7086/api/Auth/login
 Content-Type: application/json
 
@@ -7,122 +14,112 @@ Content-Type: application/json
   "password": "cheetodebolita"
 }
 
+### ==========================================
+### MÓDULO: PACIENTES
+### ==========================================
+
 ### 2. Registrar un nuevo Paciente
 POST https://localhost:7086/api/Pacientes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+Authorization: Bearer {{token}}
+
+{
   "nombreCompleto": "Juan Pérez",
   "telefono": "4421234567"
 }
 
 ### 3. Consultar la lista de Pacientes de tu clínica
 GET https://localhost:7086/api/Pacientes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+Authorization: Bearer {{token}}
 
-### 5. Agendar una Cita Médica
-# Asegúrate de usar el PacienteId que creamos hace rato (debería ser el 1)
-POST https://localhost:7086/api/Citas
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-{
-  "pacienteId": 1,
-  "fechaHora": "2026-04-15T10:30:00",
-  "motivoConsulta": "Dolor de cabeza severo y fiebre"
-}
+### Prueba de Paginación: Pedir la página 1, pero de tamaño 1
+GET https://localhost:7086/api/Pacientes?pagina=1&recordsPorPagina=1
+Authorization: Bearer {{token}}
 
-###
+### Nivel 3: Prueba de Caída de Servidor
+GET https://localhost:7086/api/Pacientes/simular-caida
+Authorization: Bearer {{token}}
 
-# 6. Ver la agenda de la clínica
-GET https://localhost:7086/api/Citas
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-
-### 7. El Doctor termina la consulta de Juan Pérez (Cita ID 1) y le cobra $850.00
-POST https://localhost:7086/api/Citas/1/completar
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-{
-  "monto": 850.00
-}
-
-###
-
-### 8. La Recepcionista revisa quién falta de pagar hoy
-GET https://localhost:7086/api/Cobros/pendientes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-###
-
-### 9. Juan Pérez paga en la terminal y Recepción registra el pago (Cobro ID 1)
-POST https://localhost:7086/api/Cobros/1/pagar
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-
-### 10. Agendamos a otra paciente (María) - Mismo ID de paciente 1 por rapidez
-POST https://localhost:7086/api/Citas
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-{
-  "pacienteId": 1,
-  "fechaHora": "2026-04-16T12:00:00",
-  "motivoConsulta": "Limpieza Dental"
-}
-
-### 11. Terminamos la cita de María y le cobramos $500.00 (Cambia el ID de la cita por el que te haya devuelto el paso 10, probablemente sea el 2)
-POST https://localhost:7086/api/Citas/2/completar
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-{
-  "monto": 500.00
-}
-
-### 12. Recepción registra el pago de María (Cambia el ID del cobro, probablemente el 2)
-POST https://localhost:7086/api/Cobros/2/pagar
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
-### 13. ¡EL REPORTE FINAL DE GERENCIA!
-GET https://localhost:7086/api/Reportes/ingresos-acumulados
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
-
+### 1. Borrado Lógico de Juan Pérez (Ahora SÍ eres SuperAdmin)
+DELETE https://localhost:7086/api/Pacientes/1
+Authorization: Bearer {{token}}
 
 ### Intento de Hackeo: Registrar paciente con datos basura
 POST https://localhost:7086/api/Pacientes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+Authorization: Bearer {{token}}
 
 {
   "nombreCompleto": "",
   "telefono": "123"
 }
 
-### Prueba de Paginación: Pedir la página 1, pero de tamaño 1
-GET https://localhost:7086/api/Pacientes?pagina=1&recordsPorPagina=1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+### ==========================================
+### MÓDULO: CITAS MÉDICAS
+### ==========================================
 
+### 5. Agendar una Cita Médica (Paciente Juan)
+POST https://localhost:7086/api/Citas
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
-### Nivel 3: Prueba de Caída de Servidor
-GET https://localhost:7086/api/Pacientes/simular-caida
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+{
+  "pacienteId": 4,
+  "fechaHora": "2026-04-15T10:30:00",
+  "motivoConsulta": "Dolor de cabeza severo y fiebre"
+}
 
+### 10. Agendamos a otra paciente (María) - Mismo ID de paciente 1 por rapidez
+POST https://localhost:7086/api/Citas
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
-### 1. Borrado Lógico de Juan Pérez
-DELETE https://localhost:7086/api/Pacientes/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+{
+  "pacienteId": 4,
+  "fechaHora": "2026-04-16T12:00:00",
+  "motivoConsulta": "Limpieza Dental"
+}
 
-### 2. Verificar la lista de pacientes
-GET https://localhost:7086/api/Pacientes?pagina=1&recordsPorPagina=10
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+### 6. Ver la agenda de la clínica
+GET https://localhost:7086/api/Citas
+Authorization: Bearer {{token}}
 
+### 7. El Doctor termina la consulta de Juan Pérez (Cita ID 1) y le cobra $850.00
+POST https://localhost:7086/api/Citas/1/completar
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
-### Prueba RBAC: Intentar borrar sin tener el rol correcto
-DELETE https://localhost:7086/api/Pacientes/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzc2MDcwMDk3LCJpc3MiOiJNZWRpQ29yZUFQSSIsImF1ZCI6Ik1lZGlDb3JlQ2xpZW50cyJ9.SZnaKzIzYE2wJCCtNvKhmfS7YX32H8SpsS1PhF23fOY
+{
+  "monto": 850.00
+}
 
-### Prueba RBAC: Intentar borrar (Ahora SÍ eres SuperAdmin)
-DELETE https://localhost:7086/api/Pacientes/2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJkY2JvdXRyb3M2NjZAZ21haWwuY29tIiwiY2xpbmljYUlkIjoiMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlN1cGVyQWRtaW4iLCJleHAiOjE3NzYwNzU4NTIsImlzcyI6Ik1lZGlDb3JlQVBJIiwiYXVkIjoiTWVkaUNvcmVDbGllbnRzIn0.3xfunz6La0JWolwkEPO2A3kZmImYDPi16BBYYNHr2e4
+### 11. Terminamos la cita de María y le cobramos $500.00
+POST https://localhost:7086/api/Citas/2/completar
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "monto": 500.00
+}
+
+### ==========================================
+### MÓDULO: COBROS Y REPORTES
+### ==========================================
+
+### 8. La Recepcionista revisa quién falta de pagar hoy
+GET https://localhost:7086/api/Cobros/pendientes
+Authorization: Bearer {{token}}
+
+### 9. Juan Pérez paga en la terminal y Recepción registra el pago (Cobro ID 1)
+POST https://localhost:7086/api/Cobros/1/pagar
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 12. Recepción registra el pago de María (Cobro ID 2)
+POST https://localhost:7086/api/Cobros/2/pagar
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### 13. ¡EL REPORTE FINAL DE GERENCIA!
+GET https://localhost:7086/api/Reportes/ingresos-acumulados
+Authorization: Bearer {{token}}

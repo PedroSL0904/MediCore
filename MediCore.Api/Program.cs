@@ -6,21 +6,26 @@ using System.Text;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediCore.Api.Middlewares;
+using MediCore.Api.Services;
+using MediCore.Api.Services.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddHttpContextAccessor(); // <--- Agrega esta línea
+builder.Services.AddHttpContextAccessor(); 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // <-- Swagger limpio y feliz, sin configuraciones extrañas
+builder.Services.AddSwaggerGen(); 
 
-// === 1. CONFIGURACIÓN DE BASE DE DATOS ===
 builder.Services.AddDbContext<MediCoreContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// === 2. CONFIGURACIÓN DEL CADENERO VIP (JWT Authentication) ===
+builder.Services.AddScoped<IPacienteService, PacienteService>();
+builder.Services.AddScoped<ICitaService, CitaService>();
+builder.Services.AddScoped<ICobroService, CobroService>();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -51,7 +56,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// === 3. EL FILTRO DE SEGURIDAD ===
 app.UseAuthentication();
 app.UseAuthorization();
 
